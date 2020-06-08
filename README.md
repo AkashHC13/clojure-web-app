@@ -1,12 +1,5 @@
 # web application built with Clojure
 
-[![pipeline status](https://gitlab.com/dzaporozhets/clojure-web-application/badges/master/pipeline.svg)](https://gitlab.com/dzaporozhets/clojure-web-application/commits/master)
-
-The goal of this project is to make a blank web application with authentication and tests.
-It can be used as an template for starting a new project on Clojure or for learning Clojure.
-
-Merge requests to this project are welcome!
-
 ## Prerequisites
 
 You will need [Leiningen][] 2.0.0 or above installed.
@@ -30,4 +23,11 @@ To start a web server for the application, run:
 
 Now visit http://localhost:3000/ to see the app running.
 
-## Tests
+## Routes
+* `/register` : Register a new user (POST)
+* `/login` : Login api for a user (POST)
+* `/api/user?email=<email-id>` : Find user by email (GET)
+
+## Deploying clojure app using Heroku
+
+https://devcenter.heroku.com/articles/deploying-clojure

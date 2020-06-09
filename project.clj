@@ -1,4 +1,4 @@
-(defproject sample "0.1.0-SNAPSHOT"
+(defproject cma "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :min-lein-version "2.0.0"
@@ -19,8 +19,10 @@
   :migratus {:store :database
              :migration-dir "migrations"
              :db (or (System/getenv "DATABASE_URL") "postgresql://localhost:5432/cma")}
-  :ring {:handler sample.handler/app
-         :init sample.handler/init}
+  :ring {:handler app.handler/app
+         :init app.handler/init}
+  :main ^:skip-aot app.handler
+  :uberjar-name "cma.jar"
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                         [kerodon "0.9.1"]
@@ -28,4 +30,5 @@
          :plugins [[lein-kibit "0.1.5"]
                    [lein-ancient "0.6.15"]]
          :ring {:stacktrace-middleware prone.middleware/wrap-exceptions}}
-   :test {:prep-tasks [["migratus", "migrate"]]}})
+   :test {:prep-tasks [["migratus", "migrate"]]}
+   :uberjar {:aot :all}})

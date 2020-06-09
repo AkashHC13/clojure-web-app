@@ -1,4 +1,4 @@
-(ns sample.routes.auth
+(ns app.routes.auth
   (:require [hiccup.form :refer :all]
             [compojure.core :refer :all]
             [compojure.handler :as handler]

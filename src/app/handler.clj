@@ -4,6 +4,7 @@
             [migratus.core :as migratus]
             [app.routes.profile :as profile]
             [app.routes.auth :as auth]
+            [ring.adapter.jetty :as ring]
             [ring.util.response :refer [resource-response response]]
             [ring.middleware.json :as middleware]
             [ring.middleware.params :refer [wrap-params]]
@@ -47,3 +48,12 @@
       (middleware/wrap-json-body {:keywords? true})
       (middleware/wrap-json-response)
       (wrap-defaults api-defaults)))
+
+(defn start [port]
+  (ring/run-jetty app {:port port
+                               :join? false}))
+
+(defn -main []
+  (migratus/migrate migratus-config)
+  (let [port (Integer. (or (System/getenv "PORT") "8080"))]
+    (start port)))

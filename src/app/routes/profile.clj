@@ -14,7 +14,8 @@
 
 (defn get-user [{:keys [params] :as _request}]
   (try
-    (let [user (db/get-user-by-email (:email params))]
+    (let [user (-> (db/get-user-by-email (:email params))
+                   (dissoc :password :timestamp))]
       (resp/response (if user
                        {:status 200
                         :user user}

@@ -14,7 +14,12 @@
 
 (defn get-user [{:keys [params] :as _request}]
   (try
-    (resp/response (db/get-user-by-email (:email params)))
+    (let [user (db/get-user-by-email (:email params))]
+      (resp/response (if user
+                       {:status 200
+                        :user user}
+                       {:status 404
+                        :user {}})))
     (catch Exception e
-      {:status 404
-       :body "User not found"})))
+      (resp/response {:status 404
+                      :body "User not found"}))))

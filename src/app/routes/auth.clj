@@ -30,8 +30,8 @@
    (if (and user (= password (:password user)))
      (resp/response {:status 200
                      :user user})
-     {:status 403
-      :message "Invalid password"})))
+     (resp/response {:status 403
+                     :message "Invalid password"}))))
 
 (defn handle-registration [{:keys [body] :as _request}]
   (let [{:keys [email password phone course_id]} body
@@ -43,5 +43,5 @@
         (catch Exception ex
           {:status 503
            :message "Something went wrong"}))
-      (resp/response {:status 400
+      (resp/response {:status 422
                       :errors validation-errors}))))

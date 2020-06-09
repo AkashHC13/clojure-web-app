@@ -8,7 +8,8 @@
             [ring.middleware.json :as middleware]
             [ring.middleware.params :refer [wrap-params]]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
-            [ring.middleware.defaults :refer [wrap-defaults api-defaults]]))
+            [ring.middleware.defaults :refer [wrap-defaults api-defaults]])
+  (:gen-class))
 
 (def migratus-config
   {:store :database

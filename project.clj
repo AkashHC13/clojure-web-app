@@ -11,6 +11,7 @@
                  [migratus "1.2.7"]
                  [prone "2020-01-17"]
                  [ring "1.7.0"]
+                 [ring/ring-jetty-adapter "1.4.0"]
                  [ring/ring-json "0.5.0"]
                  [ring/ring-anti-forgery "1.3.0"]
                  [ring/ring-defaults "0.3.2"]]

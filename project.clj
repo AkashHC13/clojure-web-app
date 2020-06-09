@@ -19,8 +19,8 @@
   :migratus {:store :database
              :migration-dir "migrations"
              :db (or (System/getenv "DATABASE_URL") "postgresql://localhost:5432/cma")}
-  :ring {:handler sample.handler/app
-         :init sample.handler/init}
+  :ring {:handler app.handler/app
+         :init app.handler/init}
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                         [kerodon "0.9.1"]
@@ -28,4 +28,5 @@
          :plugins [[lein-kibit "0.1.5"]
                    [lein-ancient "0.6.15"]]
          :ring {:stacktrace-middleware prone.middleware/wrap-exceptions}}
-   :test {:prep-tasks [["migratus", "migrate"]]}})
+   :test {:prep-tasks [["migratus", "migrate"]]}
+   :uberjar {:aot :all}})

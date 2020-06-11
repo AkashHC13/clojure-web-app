@@ -20,9 +20,25 @@
 (defn init []
   (migratus/migrate migratus-config))
 
+(defn- response [status headers message]
+  {:status status
+   :headers (merge {"Content-Type" "text/plain"} headers)
+   :body message})
+
 (defn not-found []
   {:status 404
    :message "Oh hoo! Route not found"})
+
+(defn- wrap-cors [handler]
+  (fn [request]
+    (let [headers {"Access-Control-Allow-Origin" "*"
+                   "Access-Control-Allow-Methods" "POST, OPTIONS"
+                   "Access-Control-Allow-Headers" "authorization,content-type"}]
+      (if (and (= :options (:request-method request))
+               (-> request :headers (get "origin")))
+        (response 200 headers "")
+        (-> (handler request)
+            (update :headers merge headers))))))
 
 (defn- wrap-exception-handling [handler]
   (fn [{:keys [_headers] :as request}]
@@ -47,7 +63,8 @@
       wrap-params
       (middleware/wrap-json-body {:keywords? true})
       (middleware/wrap-json-response)
-      (wrap-defaults api-defaults)))
+      (wrap-defaults api-defaults)
+      wrap-cors))
 
 (defn start [port]
   (ring/run-jetty app {:port port

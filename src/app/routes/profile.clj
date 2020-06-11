@@ -16,11 +16,8 @@
   (try
     (let [user (-> (db/get-user-by-email (:email params))
                    (dissoc :password :timestamp))]
-      (resp/response (if user
-                       {:status 200
-                        :user user}
-                       {:status 404
-                        :user {}})))
+      (if user
+        (resp/response {:user user})
+        (resp/status (resp/response "User not found") 404)))
     (catch Exception e
-      (resp/response {:status 404
-                      :body "User not found"}))))
+      (resp/status (resp/response "User not found") 404))))

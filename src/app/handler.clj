@@ -20,11 +20,6 @@
 (defn init []
   (migratus/migrate migratus-config))
 
-(defn- response [status headers message]
-  {:status status
-   :headers (merge {"Content-Type" "text/plain"} headers)
-   :body message})
-
 (defn not-found []
   {:status 404
    :message "Oh hoo! Route not found"})
@@ -36,7 +31,9 @@
                    "Access-Control-Allow-Headers" "authorization,content-type"}]
       (if (and (= :options (:request-method request))
                (-> request :headers (get "origin")))
-        (response 200 headers "")
+        {:status 200
+         :headers (merge {"Content-Type" "text/plain"} headers)
+         :body ""}
         (-> (handler request)
             (update :headers merge headers))))))
 

@@ -25,9 +25,9 @@
 
 (defn handle-login [{:keys [body] :as _request}]
  (let [{:keys [email password]} body
-       user (db/get-user-by-email email {:include-password? true})]
+       user (db/get-user-by-email email)]
    (if (and user (= password (:password user)))
-     (resp/response {:user user})
+     (resp/response "Login successful")
      (resp/status (resp/response {:error "Invalid username or password"}) 403))))
 
 (defn handle-registration [{:keys [body] :as _request}]
